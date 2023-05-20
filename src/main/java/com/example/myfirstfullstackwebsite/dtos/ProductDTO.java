@@ -17,4 +17,10 @@ public class ProductDTO {
     private BigDecimal price;
     private Long categoryId;
 
+    public ProductDTO(String name, BigDecimal price) {
+        this.name = name;
+        this.price = price;
+    }
+
+
 }

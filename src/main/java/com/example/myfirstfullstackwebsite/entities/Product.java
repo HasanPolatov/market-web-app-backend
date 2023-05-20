@@ -5,6 +5,10 @@ import lombok.*;
 
 import java.math.BigDecimal;
 
+/**
+ * product table uchun entity
+ */
+
 @Getter
 @Setter
 @EqualsAndHashCode
@@ -24,6 +28,7 @@ public class Product {
     @Column(name = "price")
     private BigDecimal price;
 
+    // category table id siga bog'lanmoqda
     @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;

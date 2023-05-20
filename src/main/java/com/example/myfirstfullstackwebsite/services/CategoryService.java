@@ -17,6 +17,7 @@ public class CategoryService {
         this.categoryRepository = categoryRepository;
     }
 
+
     public List<CategoryDTO> getAllCategories() {
         return categoryRepository
                 .findAll()
