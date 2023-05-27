@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd">
+
+    <changeSet id="26-05-2023-add-base-elements" author="Hasan">
+        <insert tableName="category">
+            <column name="name" value="texnika"/>
+        </insert>
+        <insert tableName="category">
+            <column name="name" value="noutbook"/>
+            <column name="parent_id" value="1"/>
+        </insert>
+
+        <insert tableName="product">
+            <column name="name" value="MacBook Air M2"/>
+            <column name="price" value="1200"/>
+            <column name="category_id" value="2"/>
+        </insert>
+    </changeSet>
+
+</databaseChangeLog>

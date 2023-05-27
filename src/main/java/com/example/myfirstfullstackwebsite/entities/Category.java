@@ -3,10 +3,6 @@ package com.example.myfirstfullstackwebsite.entities;
 import jakarta.persistence.*;
 import lombok.*;
 
-/**
- * category table uchun entity
- */
-
 @Getter
 @Setter
 @EqualsAndHashCode
@@ -20,10 +16,9 @@ public class Category {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "name")
+    @Column(name = "name", length = 50)
     private String name;
 
-    // o'z id siga bog'lanmoqda
     @ManyToOne
     @JoinColumn(name = "parent_id")
     private Category category;

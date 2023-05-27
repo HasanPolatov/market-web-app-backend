@@ -3,19 +3,17 @@ package com.example.myfirstfullstackwebsite.services;
 import com.example.myfirstfullstackwebsite.dtos.ProductDTO;
 import com.example.myfirstfullstackwebsite.mappers.ProductMapper;
 import com.example.myfirstfullstackwebsite.repositories.ProductRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class ProductService {
 
     private final ProductRepository productRepository;
-
-    public ProductService(ProductRepository productRepository) {
-        this.productRepository = productRepository;
-    }
 
 
     public ProductDTO getProductById(Long id) {
@@ -27,7 +25,7 @@ public class ProductService {
 
     public List<ProductDTO> getAllProducts() {
         return productRepository
-                .findAll()
+                .findAllByOrderByIdAsc()
                 .stream()
                 .map(ProductMapper::toDTO)
                 .collect(Collectors.toList());
@@ -36,6 +34,7 @@ public class ProductService {
 
 
     public ProductDTO createProduct(ProductDTO productDTO) {
+        System.out.println(productDTO.getCategoryId());
         return ProductMapper.toDTO(productRepository
                 .save(ProductMapper.toEntity(productDTO))
         );
@@ -52,7 +51,12 @@ public class ProductService {
         return true;
     }
 
-    public List<ProductDTO> getProductsByCategory(String category) {
-        return productRepository.getProductsByCategory(category);
+    public List<ProductDTO> getProductsByCategory(Long categoryId) {
+        return productRepository
+                .getProductsByCategoryId(categoryId)
+                .stream()
+                .map(ProductMapper::toDTO)
+                .collect(Collectors.toList());
     }
+
 }

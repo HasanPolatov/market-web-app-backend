@@ -5,10 +5,6 @@ import lombok.*;
 
 import java.math.BigDecimal;
 
-/**
- * product table uchun entity
- */
-
 @Getter
 @Setter
 @EqualsAndHashCode
@@ -22,15 +18,14 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "name", length = 50)
+    @Column(name = "name", length = 50, nullable = false)
     private String name;
 
-    @Column(name = "price")
+    @Column(name = "price", columnDefinition = "numeric(10,2)")
     private BigDecimal price;
 
-    // category table id siga bog'lanmoqda
     @ManyToOne
-    @JoinColumn(name = "category_id")
+    @JoinColumn(name = "category_id", nullable = false)
     private Category category;
 
     public Product id(Long id) {

@@ -2,27 +2,28 @@ package com.example.myfirstfullstackwebsite.web;
 
 import com.example.myfirstfullstackwebsite.dtos.CategoryDTO;
 import com.example.myfirstfullstackwebsite.services.CategoryService;
-import org.springframework.web.bind.annotation.CrossOrigin;
+import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+
 @RestController
 @RequestMapping("/api/")
-@CrossOrigin("*")
+@RequiredArgsConstructor
 public class CategoryController {
 
     private final CategoryService categoryService;
-
-    public CategoryController(CategoryService categoryService) {
-        this.categoryService = categoryService;
-    }
+    private static final Logger logger = LoggerFactory.getLogger(CategoryController.class);
 
     @GetMapping("categories")
     public List<CategoryDTO> getAllCategories() {
-        return categoryService.getAllCategories();
+        logger.info("Listing categories");
+        return categoryService.getAllChildCategories();
     }
 
 }
