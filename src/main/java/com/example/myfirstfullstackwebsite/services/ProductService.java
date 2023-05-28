@@ -4,6 +4,8 @@ import com.example.myfirstfullstackwebsite.dtos.ProductDTO;
 import com.example.myfirstfullstackwebsite.mappers.ProductMapper;
 import com.example.myfirstfullstackwebsite.repositories.ProductRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,19 +25,15 @@ public class ProductService {
                 .orElseThrow(() -> new RuntimeException("Product not found"));
     }
 
-    public List<ProductDTO> getProducts(Long categoryId) {
+    public Page<ProductDTO> getProducts(Long categoryId, Pageable pageable) {
         if (categoryId != null) {
             return productRepository
-                    .getProductsByCategoryId(categoryId)
-                    .stream()
-                    .map(ProductMapper::toDTO)
-                    .collect(Collectors.toList());
+                    .getProductsByCategoryId(categoryId, pageable)
+                    .map(ProductMapper::toDTO);
         } else {
             return productRepository
-                    .findAllByOrderByIdAsc()
-                    .stream()
-                    .map(ProductMapper::toDTO)
-                    .collect(Collectors.toList());
+                    .findAllByOrderByIdAsc(pageable)
+                    .map(ProductMapper::toDTO);
         }
     }
 

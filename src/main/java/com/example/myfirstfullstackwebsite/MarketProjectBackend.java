@@ -10,12 +10,12 @@ import javax.sql.DataSource;
 
 @SpringBootApplication
 @RequiredArgsConstructor
-public class MyFirstFullStackWebSiteApplication {
+public class MarketProjectBackend {
 
     private final DataSource dataSource;
 
     public static void main(String[] args) {
-        SpringApplication.run(MyFirstFullStackWebSiteApplication.class, args);
+        SpringApplication.run(MarketProjectBackend.class, args);
     }
 
     @Bean
