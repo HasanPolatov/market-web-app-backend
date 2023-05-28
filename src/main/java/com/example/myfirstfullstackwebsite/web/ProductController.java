@@ -20,7 +20,6 @@ public class ProductController {
     @PostMapping("product")
     public ProductDTO createProduct(@RequestBody ProductDTO product) {
         logger.info("Creating product: {}", product.toString());
-        product.setCategoryId(1L);
         return productService.createProduct(product);
     }
 
@@ -31,15 +30,8 @@ public class ProductController {
     }
 
     @GetMapping("products")
-    public List<ProductDTO> listProducts() {
-        logger.info("Listing all products");
-        return productService.getAllProducts();
-    }
-
-    @GetMapping("product-by-category")
-    public List<ProductDTO> getProductsByCategory(@RequestParam Long categoryId) {
-        logger.info("Getting products by category: {}", categoryId);
-        return productService.getProductsByCategory(categoryId);
+    public List<ProductDTO> getProducts(@RequestParam(required = false) Long categoryId) {
+        return productService.getProducts(categoryId);
     }
 
     @DeleteMapping("product/{id}")

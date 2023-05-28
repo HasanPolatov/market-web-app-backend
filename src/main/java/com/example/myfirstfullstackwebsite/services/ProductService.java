@@ -23,14 +23,22 @@ public class ProductService {
                 .orElseThrow(() -> new RuntimeException("Product not found"));
     }
 
-    public List<ProductDTO> getAllProducts() {
-        return productRepository
-                .findAllByOrderByIdAsc()
-                .stream()
-                .map(ProductMapper::toDTO)
-                .collect(Collectors.toList());
-
+    public List<ProductDTO> getProducts(Long categoryId) {
+        if (categoryId != null) {
+            return productRepository
+                    .getProductsByCategoryId(categoryId)
+                    .stream()
+                    .map(ProductMapper::toDTO)
+                    .collect(Collectors.toList());
+        } else {
+            return productRepository
+                    .findAllByOrderByIdAsc()
+                    .stream()
+                    .map(ProductMapper::toDTO)
+                    .collect(Collectors.toList());
+        }
     }
+
 
 
     public ProductDTO createProduct(ProductDTO productDTO) {
@@ -49,14 +57,6 @@ public class ProductService {
     public boolean deleteProduct(Long id) {
         productRepository.deleteById(id);
         return true;
-    }
-
-    public List<ProductDTO> getProductsByCategory(Long categoryId) {
-        return productRepository
-                .getProductsByCategoryId(categoryId)
-                .stream()
-                .map(ProductMapper::toDTO)
-                .collect(Collectors.toList());
     }
 
 }
