@@ -42,7 +42,6 @@ public class ProductService {
 
 
     public ProductDTO createProduct(ProductDTO productDTO) {
-        System.out.println(productDTO.getCategoryId());
         return ProductMapper.toDTO(productRepository
                 .save(ProductMapper.toEntity(productDTO))
         );
