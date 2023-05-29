@@ -6,5 +6,6 @@
 
     <include file="liquibase/tables/category.xml" relativeToChangelogFile="false"/>
     <include file="liquibase/tables/product.xml" relativeToChangelogFile="false"/>
+    <include file="liquibase/tables/my-user.xml" relativeToChangelogFile="false"/>
 
 </databaseChangeLog>
