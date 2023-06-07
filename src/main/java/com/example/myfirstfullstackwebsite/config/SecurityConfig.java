@@ -54,7 +54,7 @@ public class SecurityConfig {
         http
                 .cors().and().csrf().disable()
                 .authorizeHttpRequests()
-                .requestMatchers("/api/authenticate", "/swagger-ui.html").permitAll()
+                .requestMatchers("api/authenticate", "/api/registration", "/swagger-ui.html").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).and().sessionManagement()
