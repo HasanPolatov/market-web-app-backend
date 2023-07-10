@@ -11,11 +11,15 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+
+import java.util.List;
 
 @Configuration
 @EnableWebSecurity
@@ -52,19 +56,33 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-                .cors().and().csrf().disable()
-                .authorizeHttpRequests()
-                .requestMatchers("/api/authenticate", "/swagger-ui.html").permitAll()
-                .anyRequest().authenticated()
-                .and()
-                .exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).and().sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+                .csrf(AbstractHttpConfigurer::disable)
+                .cors((cors) -> cors.configurationSource(
+                        request -> {
+                            CorsConfiguration configuration = new CorsConfiguration();
+                            configuration.setAllowedOriginPatterns(List.of("*"));
+                            configuration.setAllowedMethods(List.of("GET", "POST", "OPTIONS", "PUT", "DELETE", "PATCH"));
+                            configuration.setAllowedHeaders(List.of("*"));
+                            configuration.setAllowCredentials(true);
+                            return configuration;
+                        }
+                ))
+                .authorizeHttpRequests(
+                        (authorizeRequests) ->
+                                authorizeRequests
+                                        .requestMatchers("api/authenticate", "/api/registration", "/swagger-ui.html")
+                                        .permitAll()
+                                        .anyRequest()
+                                        .authenticated()
+                )
+                .exceptionHandling((ex) ->
+                        ex.authenticationEntryPoint(jwtAuthenticationEntryPoint))
+                .sessionManagement((s) -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
         http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
-
 
 
 }
